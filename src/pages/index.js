@@ -2,6 +2,7 @@ import Card from "../components/card";
 import SearchBar from "../components/searchBar";
 import {useEffect, useState} from "react";
 import { getPokemons } from '../services/api';
+import {getCapitalizeName, getPokemonId} from "../utils";
 
 export default function PokemonListPage() {
     const [pokemons, setPokemons] = useState([]);
@@ -42,16 +43,13 @@ export default function PokemonListPage() {
                 <ul className={"card-list"}>
                     {filterByName.length < 1 ? 'Nenhum pokemon foi encontrado com este nome.' :
                         filterByName.map((pokemon) => {
-                        const urlParts = pokemon.species.url.split('/')
-                        const id = urlParts[urlParts.length - 2]
-                        const capitalizedName = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)
 
                         return (
                             <Card
                                 key={pokemon.name}
                                 alt={pokemon.name}
-                                src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`}
-                                name={capitalizedName}
+                                src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${getPokemonId(pokemon)}.png`}
+                                name={getCapitalizeName(pokemon)}
                                 types={pokemon.types[0].type.name}
                                 height={pokemon.height}
                                 weight={pokemon.weight}

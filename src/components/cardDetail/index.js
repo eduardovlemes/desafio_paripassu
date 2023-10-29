@@ -1,6 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+import {getCapitalizeName, getPokemonId} from "../../utils";
 
 const style = {
     position: "absolute",
@@ -16,11 +17,6 @@ const style = {
 };
 
 export default function CardDetail({ value, handleOpen, handleClose }) {
-
-    const urlParts = value.species.url.split('/')
-    const id = urlParts[urlParts.length - 2]
-    const capitalizedName = value.name.charAt(0).toUpperCase() + value.name.slice(1)
-
     return (
             <Modal
                 open={handleOpen}
@@ -31,9 +27,9 @@ export default function CardDetail({ value, handleOpen, handleClose }) {
                     <div className="modal">
                         <img
                             alt={value.name}
-                            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`}
+                            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${getPokemonId(value)}.png`}
                             width={150}/>
-                        <h3>{capitalizedName}</h3>
+                        <h3>{getCapitalizeName(value)}</h3>
                         <br></br>
 
                         <p>Habilidades:</p>
