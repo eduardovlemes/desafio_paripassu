@@ -40,7 +40,8 @@ export default function PokemonListPage() {
             onChange={(event) => setTerm(event.target.value)}/>
 
                 <ul className={"card-list"}>
-                    {filterByName.map((pokemon) => {
+                    {filterByName.length < 1 ? 'Nenhum pokemon foi encontrado com este nome.' :
+                        filterByName.map((pokemon) => {
                         const urlParts = pokemon.species.url.split('/')
                         const id = urlParts[urlParts.length - 2]
                         const capitalizedName = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)
