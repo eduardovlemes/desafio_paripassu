@@ -1,6 +1,6 @@
 import { IoSearchOutline } from "react-icons/io5";
 
-export default function SearchBar({ onChange, placeholder, value }) {
+export default function SearchBar({ onChange, placeholder, value, onClick }) {
     return (
         <div className="search-field">
             <input
@@ -10,7 +10,7 @@ export default function SearchBar({ onChange, placeholder, value }) {
                 onChange={onChange}
                 value={value}
             />
-            <IoSearchOutline size="24" className="search-icon" />
+            <IoSearchOutline size="24" className="search-icon" onClick={onClick}/>
         </div>
     );
 }

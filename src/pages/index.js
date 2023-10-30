@@ -1,12 +1,11 @@
 import Card from "../components/card";
 import SearchBar from "../components/searchBar";
 import {useEffect, useState} from "react";
-import { getPokemons } from '../services/api';
+import {getPokemon, getPokemons} from '../services/api';
 import {getCapitalizeName, getPokemonId} from "../utils";
 
 export default function PokemonListPage() {
     const [pokemons, setPokemons] = useState([]);
-    const [filterByName, setFilterByName] = useState(pokemons);
     const [term, setTerm] = useState("");
 
     useEffect(() => {
@@ -22,14 +21,19 @@ export default function PokemonListPage() {
         fetchData();
     }, []);
 
-    useEffect(() => {
-        if (pokemons) {
-            const filteredPokemons = pokemons.filter((item) =>
-                item.name.toLowerCase().includes(term.toLowerCase())
-            );
-            setFilterByName(filteredPokemons);
+    async function fetchPokemonData() {
+        if (term.trim() === "") {
+            alert("Insira um nome de Pokémon válido.");
+            return;
         }
-    }, [term, pokemons]);
+
+        try {
+            const pokemon = await getPokemon(term);
+            setPokemons([pokemon]);
+        } catch (error) {
+            alert("Erro: " + error.message);
+        }
+    }
 
     return(
         <div className="page-container">
@@ -38,11 +42,11 @@ export default function PokemonListPage() {
             <SearchBar
             value={term}
             placeholder={'Buscar Pokemon'}
-            onChange={(event) => setTerm(event.target.value)}/>
+            onChange={(event) => setTerm(event.target.value)}
+            onClick={fetchPokemonData}/>
 
                 <ul className={"card-list"}>
-                    {filterByName.length < 1 ? 'Nenhum pokemon foi encontrado com este nome.' :
-                        filterByName.map((pokemon) => {
+                    {pokemons.map((pokemon) => {
 
                         return (
                             <Card

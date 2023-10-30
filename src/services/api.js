@@ -24,3 +24,18 @@ export const getPokemons = async () => {
         throw new Error("Não foi possível encontrar Pokemons: " + error);
     }
 };
+
+export const getPokemon = async (term) => {
+    try {
+        const response = await api.get(`pokemon/${term}`);
+
+        if (response.status !== 200) {
+            throw new Error("Dados não encontrados.");
+        }
+
+        return await response.data;
+
+    } catch (error) {
+        throw new Error("Não foi possível encontrar Pokemons: " + error);
+    }
+};
